@@ -1,0 +1,119 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
+
+body {
+  background-color: #f7f7f7;
+
+  display: grid;
+  justify-content: center;
+
+  font-family: Roboto, sans-serif;
+}
+
+.container {
+  margin-top: 5rem;
+  display: grid;
+
+  &-title {
+    color: #777;
+    font-weight: 300;
+    font-size: 4.8rem;
+    text-align: center;
+    margin-bottom: 6rem;
+
+    span {
+      font-weight: 400;
+    }
+  }
+
+  .albums {
+    grid-gap: 5rem 2.5rem;
+    width: 100%;
+    max-width: 125rem;
+
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .album {
+      padding: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      &:hover:before {
+        transform: scale(1.2) translateX(-6.5rem);
+      }
+
+      &:hover:after {
+        transform: scale(1.5) translateX(4.5rem);
+      }
+
+      &-thumbnail {
+        width: 20rem;
+        height: 20rem;
+        border-radius: 2.5rem;
+        padding: 1rem;
+        border: 1px solid #777;
+        background: url("./assets/cat.jpg") no-repeat center;
+        background-size: cover;
+        &:hover {
+          opacity: 0.6;
+        }
+      }
+
+      &-id,
+      &-quantity {
+        text-align: center;
+      }
+
+      &-id {
+        font-size: 2.4rem;
+        color: #2a62fe;
+        margin: 0.5rem 0;
+      }
+
+      &-quantity {
+        font-size: 2rem;
+        font-weight: 400;
+        color: #777;
+      }
+
+      &:after {
+        height: 0.5rem;
+        display: block;
+        margin-top: 1rem;
+        width: 10rem;
+        background-color: #3195c4;
+        border-radius: 2rem;
+        border-right: 1px white;
+        content: "";
+        transition: all 0.5s;
+      }
+      &:before {
+        display: block;
+        margin-bottom: 1rem;
+        content: "";
+        background-color: #2a62fe;
+        height: 0.5rem;
+        border-radius: 2rem;
+        margin-top: -2rem;
+        margin-left: 10.1rem;
+        transition: all 0.5s;
+      }
+    }
+  }
+}
