@@ -7,6 +7,7 @@ import IPhoto from "./common/interfaces/photo.interface";
 import mergeObjectsInUnique from "./common/utils/merge-objects-in-unique";
 
 export default function App() {
+  const [data, setData] = useState<IPhoto[]>([]);
   const [albums, setAlbums] = useState<IPhoto[]>([]);
   const [page, setPage] = useState(10);
 
@@ -14,6 +15,7 @@ export default function App() {
     api.get("/").then((res) => {
       const data: IPhoto[] = res.data;
 
+      setData(data);
       setAlbums(mergeObjectsInUnique(data, "albumId"));
     });
   }, []);
@@ -28,9 +30,15 @@ export default function App() {
   function lastPage() {
     if (page <= 10) setPage(10);
     else setPage(page - 10);
-
-    console.log(page);
   }
+
+  // const images = data.slice(page - 10, page - 6).map((d, i) => {
+  //   albums.filter((a, i2) => {
+  //     if (d.albumId === albums[i2].albumId) {
+  //       console.log(d);
+  //     }
+  //   });
+  // });
 
   return (
     <div className="container">
@@ -74,13 +82,14 @@ export default function App() {
 
       <div className="albums">
         {albums &&
-          albums.slice(page - 10, page).map((album) => (
+          albums.slice(page - 10, page).map((album, i) => (
             <div className="album" key={album.id}>
-              <img
-                src={album.thumbnailUrl}
-                className="album-thumbnail"
-                alt={album.title}
-              />
+              <div className="album-thumbnail">
+                <img src={album.thumbnailUrl} alt={album.title} />
+                <img src={data[album.id + 1].thumbnailUrl} alt={album.title} />
+                <img src={data[album.id + 2].thumbnailUrl} alt={album.title} />
+                <img src={data[album.id + 3].thumbnailUrl} alt={album.title} />
+              </div>
               <h2 className="album-name">{album.title}</h2>
             </div>
           ))}
