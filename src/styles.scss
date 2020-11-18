@@ -36,6 +36,18 @@ body {
     }
   }
 
+  .menu {
+    margin: 3rem auto 8rem auto;
+
+    svg {
+      cursor: pointer;
+    }
+
+    svg {
+      margin: 0 2rem;
+    }
+  }
+
   .albums {
     grid-gap: 5rem 2.5rem;
     width: 100%;
