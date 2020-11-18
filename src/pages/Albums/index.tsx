@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import api from "../../config/api";
 
 import "./styles.scss";
@@ -8,19 +8,33 @@ import IPhoto from "../../common/interfaces/photo.interface";
 
 import mergeObjectsInUnique from "../../common/utils/merge-objects-in-unique";
 
-export default function Albums({ router }) {
+export default function Albums() {
   const [data, setData] = useState<IPhoto[]>([]);
   const [albums, setAlbums] = useState<IPhoto[]>([]);
+  const [favorites, setFavorites] = useState<IPhoto[]>([]);
+
   const [page, setPage] = useState(10);
 
   const history = useHistory();
 
   useEffect(() => {
     api.get("/").then((res) => {
-      const data: IPhoto[] = res.data;
+      const responseData: IPhoto[] = res.data;
 
-      setData(data);
-      setAlbums(mergeObjectsInUnique(data, "albumId"));
+      setData(responseData);
+
+      const newData = mergeObjectsInUnique(responseData, "albumId");
+      let localFavorites: IPhoto[] = mergeObjectsInUnique(JSON.parse(localStorage.getItem("favorites") as string), "id");
+
+      localFavorites.map(lf => {
+        newData.map(nd => {
+          if (lf.albumId === nd.albumId) {
+            nd.favorite = true;
+          }
+        })
+      })
+
+      setAlbums(newData);
     });
   }, []);
 
@@ -34,11 +48,43 @@ export default function Albums({ router }) {
     else setPage(page - 10);
   }
 
-  async function navigateToAlbum(_album: any) {
+  async function navigateToAlbum(_album: IPhoto) {
     const album = data.filter((a) => a.albumId === _album.albumId);
-    await history.push('/album', {
-      state: album
+    await history.push("/album", {
+      state: album,
     });
+  }
+
+  function setFavorite(_album: IPhoto) {
+    const exist = albums.find(a => a.id === _album.id);
+
+    if(exist === undefined) return;
+
+    exist.favorite = !exist.favorite;
+
+    setAlbums([...albums, exist]);
+
+    let localFavorites: IPhoto[] = [];
+    if (localStorage.hasOwnProperty("favorites")) {
+      localFavorites = mergeObjectsInUnique(JSON.parse(localStorage.getItem("favorites") as string), "id");
+    }
+
+    const existInLocal = localFavorites.find(f => f.id === exist.id);
+    if (!existInLocal) {
+      localFavorites.push(exist)
+      localStorage.setItem('favorites', JSON.stringify(localFavorites));
+      setFavorites(localFavorites);
+    } else {
+      let removedArray: IPhoto[] = [];
+      localFavorites.map(fav => {
+        if (fav.albumId !== exist.albumId) {
+          removedArray.push(fav);
+        }
+      })
+
+      localStorage.setItem('favorites', JSON.stringify(removedArray));
+      setFavorites(removedArray);
+    }
   }
 
   if (albums.length === 0) return <h1>CARREGANDO...</h1>;
@@ -86,12 +132,22 @@ export default function Albums({ router }) {
       <main className="albums">
         {albums &&
           albums.slice(page - 10, page).map((album) => (
-            <div
-              onClick={() => navigateToAlbum(album)}
-              className="album"
-              key={album.id}
-            >
-              <div className="album-thumbnail">
+            <div className="album" key={album.id}>
+              <svg
+                width="864"
+                height="774"
+                viewBox="0 0 864 774"
+                xmlns="http://www.w3.org/2000/svg"
+                className={"album-favorite album-favorite-active"}
+                fill={album.favorite ? "gold" : "gray"}
+                onClick={() => setFavorite(album)}
+              >
+                <path d="M843 158.6C829.596 127.564 810.269 99.4389 786.1 75.8C761.913 52.0906 733.396 33.2491 702.1 20.3C669.648 6.81928 634.841 -0.080911 599.7 -2.95347e-05C550.4 -2.95347e-05 502.3 13.5 460.5 39C450.5 45.1 441 51.8 432 59.1C423 51.8 413.5 45.1 403.5 39C361.7 13.5 313.6 -2.95347e-05 264.3 -2.95347e-05C228.8 -2.95347e-05 194.4 6.79997 161.9 20.3C130.5 33.3 102.2 52 77.9 75.8C53.6997 99.4122 34.3678 127.544 21 158.6C7.1 190.9 0 225.2 0 260.5C0 293.8 6.8 328.5 20.3 363.8C31.6 393.3 47.8 423.9 68.5 454.8C101.3 503.7 146.4 554.7 202.4 606.4C295.2 692.1 387.1 751.3 391 753.7L414.7 768.9C425.2 775.6 438.7 775.6 449.2 768.9L472.9 753.7C476.8 751.2 568.6 692.1 661.5 606.4C717.5 554.7 762.6 503.7 795.4 454.8C816.1 423.9 832.4 393.3 843.6 363.8C857.1 328.5 863.9 293.8 863.9 260.5C864 225.2 856.9 190.9 843 158.6V158.6ZM432 689.8C432 689.8 76 461.7 76 260.5C76 158.6 160.3 76 264.3 76C337.4 76 400.8 116.8 432 176.4C463.2 116.8 526.6 76 599.7 76C703.7 76 788 158.6 788 260.5C788 461.7 432 689.8 432 689.8Z" />
+              </svg>
+              <div
+                className="album-thumbnail"
+                onClick={() => navigateToAlbum(album)}
+              >
                 <img src={album.thumbnailUrl} alt={album.title} />
                 <img src={data[album.id + 1].thumbnailUrl} alt={album.title} />
                 <img src={data[album.id + 2].thumbnailUrl} alt={album.title} />

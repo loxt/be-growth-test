@@ -78,6 +78,7 @@ export default function Photos({ location }) {
                 alt={photo.title}
                 className={"photo-thumbnail"}
               />
+
               <h1 className="photo-title">{photo.title}</h1>
             </div>
           ))}

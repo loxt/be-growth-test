@@ -4,4 +4,5 @@ export default interface IPhoto {
   title: string;
   url: string;
   thumbnailUrl: string;
+  favorite: boolean;
 }

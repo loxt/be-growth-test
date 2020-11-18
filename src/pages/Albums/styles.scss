@@ -73,6 +73,30 @@
 
           border-radius: 1.5rem;
         }
+        position: relative;
+        z-index: 1;
+      }
+
+      position: relative;
+
+      &-favorite {
+        display: block;
+        position: absolute;
+        z-index: 2;
+        width: 5rem;
+        height: 5rem;
+        margin: -1rem 0 0 -2rem;
+        content: "";
+        &:hover {
+          transform: scale(1.3);
+          transition: 0.3s;
+
+          fill: gold;
+        }
+
+        &:active {
+          transform: scale(3);
+        }
       }
 
       &-name {
