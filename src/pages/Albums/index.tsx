@@ -24,15 +24,18 @@ export default function Albums() {
       setData(responseData);
 
       const newData = mergeObjectsInUnique(responseData, "albumId");
-      let localFavorites: IPhoto[] = mergeObjectsInUnique(JSON.parse(localStorage.getItem("favorites") as string), "id");
+      let localFavorites: IPhoto[] = mergeObjectsInUnique(
+        JSON.parse(localStorage.getItem("favorites") as string),
+        "id"
+      );
 
-      localFavorites.map(lf => {
-        newData.map(nd => {
+      localFavorites.map((lf) => {
+        newData.map((nd) => {
           if (lf.albumId === nd.albumId) {
             nd.favorite = true;
           }
-        })
-      })
+        });
+      });
 
       setAlbums(newData);
     });
@@ -56,9 +59,9 @@ export default function Albums() {
   }
 
   function setFavorite(_album: IPhoto) {
-    const exist = albums.find(a => a.id === _album.id);
+    const exist = albums.find((a) => a.id === _album.id);
 
-    if(exist === undefined) return;
+    if (exist === undefined) return;
 
     exist.favorite = !exist.favorite;
 
@@ -66,23 +69,26 @@ export default function Albums() {
 
     let localFavorites: IPhoto[] = [];
     if (localStorage.hasOwnProperty("favorites")) {
-      localFavorites = mergeObjectsInUnique(JSON.parse(localStorage.getItem("favorites") as string), "id");
+      localFavorites = mergeObjectsInUnique(
+        JSON.parse(localStorage.getItem("favorites") as string),
+        "id"
+      );
     }
 
-    const existInLocal = localFavorites.find(f => f.id === exist.id);
+    const existInLocal = localFavorites.find((f) => f.id === exist.id);
     if (!existInLocal) {
-      localFavorites.push(exist)
-      localStorage.setItem('favorites', JSON.stringify(localFavorites));
+      localFavorites.push(exist);
+      localStorage.setItem("favorites", JSON.stringify(localFavorites));
       setFavorites(localFavorites);
     } else {
       let removedArray: IPhoto[] = [];
-      localFavorites.map(fav => {
+      localFavorites.map((fav) => {
         if (fav.albumId !== exist.albumId) {
           removedArray.push(fav);
         }
-      })
+      });
 
-      localStorage.setItem('favorites', JSON.stringify(removedArray));
+      localStorage.setItem("favorites", JSON.stringify(removedArray));
       setFavorites(removedArray);
     }
   }
