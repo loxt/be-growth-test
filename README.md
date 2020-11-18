@@ -1,3 +1,9 @@
+# BY LOXT :)
+
+<img src="https://i.imgur.com/7ltemTM.png">
+<img src="https://i.imgur.com/ib4dpqH.png">
+<img src="https://i.imgur.com/AaToVHg.png">
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
