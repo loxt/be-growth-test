@@ -1,5 +1,4 @@
 export default function mergeObjectsInUnique<T>(array: T[], property: any): T[] {
-
   const newArray = new Map();
 
   array.forEach((item: T) => {

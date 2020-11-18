@@ -1,35 +1,17 @@
-*,
-*::after,
-*::before {
-  margin: 0;
-  padding: 0;
-  box-sizing: inherit;
-}
-
-html {
-  box-sizing: border-box;
-  font-size: 62.5%;
-}
-
-body {
-  background-color: #f7f7f7;
-
-  display: grid;
-  justify-content: center;
-
-  font-family: Roboto, sans-serif;
-}
-
 .container {
-  margin-top: 5rem;
   display: grid;
+
+  margin-top: 5rem;
 
   &-title {
-    color: #777;
-    font-weight: 300;
-    font-size: 4.8rem;
-    text-align: center;
     margin-bottom: 6rem;
+
+    text-align: center;
+
+    color: #777;
+
+    font-size: 4.8rem;
+    font-weight: 300;
 
     span {
       font-weight: 400;
@@ -38,27 +20,27 @@ body {
 
   .menu {
     margin: 3rem auto 8rem auto;
-
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
     svg {
       cursor: pointer;
-    }
-
-    svg {
-      margin: 0 2rem;
     }
   }
 
   .albums {
-    grid-gap: 5rem 2.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
     width: 100%;
     max-width: 125rem;
 
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+    grid-gap: 5rem 2.5rem;
 
     .album {
       padding: 1.2rem;
+
       cursor: pointer;
       transition: all 0.3s ease;
 
@@ -77,9 +59,10 @@ body {
       &-thumbnail {
         width: 20rem;
         height: 20rem;
-        border-radius: 2.5rem;
         padding: 1rem;
+
         border: 1px solid #777;
+        border-radius: 2.5rem;
         background-size: cover;
         &:hover {
           opacity: 0.6;
@@ -87,42 +70,53 @@ body {
 
         img {
           width: 50%;
+
           border-radius: 1.5rem;
         }
       }
 
       &-name {
-        font-size: 2rem;
-        color: #2a62fe;
+        overflow: hidden;
+
+        width: 20rem;
         margin: 0.5rem 0;
+
         text-align: center;
         white-space: nowrap;
-        width: 20rem;
-        overflow: hidden;
         text-overflow: ellipsis;
+
+        color: #2a62fe;
+
+        font-size: 2rem;
       }
 
       &:after {
-        height: 0.5rem;
         display: block;
-        margin-top: 1rem;
+
         width: 10rem;
-        background-color: #3195c4;
-        border-radius: 2rem;
-        border-right: 1px white;
+        height: 0.5rem;
+        margin-top: 1rem;
+
         content: "";
         transition: all 0.5s;
+
+        border-right: 1px white;
+        border-radius: 2rem;
+        background-color: #3195c4;
       }
       &:before {
         display: block;
-        margin-bottom: 1rem;
-        content: "";
-        background-color: #2a62fe;
+
         height: 0.5rem;
-        border-radius: 2rem;
         margin-top: -2rem;
+        margin-bottom: 1rem;
         margin-left: 10.1rem;
+
+        content: "";
         transition: all 0.5s;
+
+        border-radius: 2rem;
+        background-color: #2a62fe;
       }
     }
   }
