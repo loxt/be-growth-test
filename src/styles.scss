@@ -68,28 +68,21 @@ body {
         border-radius: 2.5rem;
         padding: 1rem;
         border: 1px solid #777;
-        background: url("./assets/cat.jpg") no-repeat center;
         background-size: cover;
         &:hover {
           opacity: 0.6;
         }
       }
 
-      &-id,
-      &-quantity {
-        text-align: center;
-      }
-
-      &-id {
-        font-size: 2.4rem;
+      &-name {
+        font-size: 2rem;
         color: #2a62fe;
         margin: 0.5rem 0;
-      }
-
-      &-quantity {
-        font-size: 2rem;
-        font-weight: 400;
-        color: #777;
+        text-align: center;
+        white-space: nowrap;
+        width: 20rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       &:after {
