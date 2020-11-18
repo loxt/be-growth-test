@@ -7,11 +7,9 @@ import "./styles.scss";
 import IPhoto from "../../common/interfaces/photo.interface";
 
 import mergeObjectsInUnique from "../../common/utils/merge-objects-in-unique";
-
 export default function Albums() {
   const [data, setData] = useState<IPhoto[]>([]);
   const [albums, setAlbums] = useState<IPhoto[]>([]);
-  const [favorites, setFavorites] = useState<IPhoto[]>([]);
 
   const [page, setPage] = useState(10);
 
@@ -29,8 +27,8 @@ export default function Albums() {
         "id"
       );
 
-      localFavorites.map((lf) => {
-        newData.map((nd) => {
+      localFavorites.forEach((lf) => {
+        newData.forEach((nd) => {
           if (lf.albumId === nd.albumId) {
             nd.favorite = true;
           }
@@ -79,17 +77,15 @@ export default function Albums() {
     if (!existInLocal) {
       localFavorites.push(exist);
       localStorage.setItem("favorites", JSON.stringify(localFavorites));
-      setFavorites(localFavorites);
     } else {
       let removedArray: IPhoto[] = [];
-      localFavorites.map((fav) => {
+      localFavorites.forEach((fav) => {
         if (fav.albumId !== exist.albumId) {
           removedArray.push(fav);
         }
       });
 
       localStorage.setItem("favorites", JSON.stringify(removedArray));
-      setFavorites(removedArray);
     }
   }
 
